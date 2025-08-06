@@ -1,6 +1,5 @@
 
-import { GeistSans } from 'geist/font/sans';
-import { Montserrat } from "next/font/google";
+import { Geist, Geist_Mono, Montserrat } from "next/font/google";
 import "./globals.css";
 import { NavbarDemo } from "@/components/Navbar";
 import { ThemeProvider } from "../components/ThemeProvider";
@@ -15,7 +14,7 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
-  subsets: ["regular"],
+  subsets: ["latin"],
 }); 
 
 const montserrat = Montserrat({
