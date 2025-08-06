@@ -1,3 +1,5 @@
+
+import { GeistSans } from 'geist/font/sans';
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { NavbarDemo } from "@/components/Navbar";
