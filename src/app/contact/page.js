@@ -91,7 +91,7 @@ export default function ContactPage() {
             <div className="text-center mb-6">
               <h1 className="text-2xl font-bold text-white mb-1">Contact Us</h1>
               <p className="text-gray-300 text-xs">
-                Let's create something amazing together
+                Lets create something amazing together
               </p>
             </div>
 
