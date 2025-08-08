@@ -9,7 +9,6 @@ export default function AyrtonInfoSection() {
     "/images/ayrton/img2.webp", 
     "/images/ayrton/img3.webp",
     "/images/ayrton/img4.webp",
-    "/images/ayrton/img5.webp"
   ];
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -34,7 +33,7 @@ export default function AyrtonInfoSection() {
       <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-20 h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-50"></div>
       
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-cente px-2">
           
           {/* Left side - Text Content */}
           <motion.div 
@@ -74,7 +73,7 @@ export default function AyrtonInfoSection() {
 
             {/* Additional Info Points */}
             <motion.div 
-              className="space-y-6"
+              className="space-y-3 lg:space-y-6 md:space-y-5 xl:space-y-8 "
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}

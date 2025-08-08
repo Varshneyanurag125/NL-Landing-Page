@@ -4,6 +4,7 @@ import "./globals.css";
 import { NavbarDemo } from "@/components/Navbar";
 import { ThemeProvider } from "../components/ThemeProvider";
 import ProgressBar from "../components/ProgressBar";
+import { Toaster } from 'sonner';
 // import { SiteOpeningAnimation } from "../components/SiteOpeningAnimationSimple";
 
 
@@ -34,6 +35,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} antialiased`}
       >
         <ThemeProvider>
+            <Toaster position="top-center" richColors />
             <ProgressBar />
             <NavbarDemo />
             {children}

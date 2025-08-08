@@ -96,7 +96,7 @@ export default function AyrtonDetail() {
         
         {/* Main Heading */}
         <div className="text-center mb-10">
-          <h1 className="text-2xl md:text-3xl lg:text-2xl font-light leading-relaxed max-w-5xl mx-auto">
+          <h1 className="text-xl md:text-3xl lg:text-2xl font-light leading-relaxed max-w-6xl mx-auto text-justify px-4">
             Ayrton completely transforms how engineers simulate pouring and casting simulation in 3 ways:
           </h1>
         </div>

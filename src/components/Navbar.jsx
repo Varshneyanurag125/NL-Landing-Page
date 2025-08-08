@@ -42,7 +42,8 @@ export function NavbarDemo() {
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 w-full" id="main-navbar">
-      <Navbar className="absolute top-10 left-0 right-0">
+      <div className="hidden md:block h-6 lg:h-8"></div>
+      <Navbar className="absolute top-0 md:top-6 lg:top-8 left-0 right-0">
         {/* Desktop Navigation */}
         <NavBody className="rounded-full border border-white bg-black">  
           <NavbarLogo />

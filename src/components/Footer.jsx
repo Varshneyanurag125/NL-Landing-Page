@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip';
 import { Button } from '@/components/ui/stateful-button';
+import { toast } from 'sonner';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -10,25 +11,58 @@ export default function Footer() {
 
   const handleNewsletterSubscribe = async () => {
     if (!email || !email.includes('@')) {
+      toast.error('Please enter a valid email address');
       throw new Error('Please enter a valid email address');
     }
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Reset email on success
-    setEmail('');
-    return true;
+    try {
+      // Show loading toast
+      toast.loading('Subscribing...');
+      
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+      
+      const data = await response.json();
+      
+      // Dismiss all toasts
+      toast.dismiss();
+      
+      if (!response.ok) {
+        console.error('API error:', data);
+        toast.error(data.error || 'Subscription failed. Please try again.');
+        throw new Error(data.error || 'Subscription failed');
+      }
+      
+      // Show success message
+      toast.success('Thank you for subscribing!');
+      
+      // Reset email on success
+      setEmail('');
+      return true;
+    } catch (error) {
+      // Dismiss any loading toasts
+      toast.dismiss();
+      
+      console.error('Subscription error:', error);
+      toast.error(error.message || 'Failed to subscribe. Please try again.');
+      throw error;
+    }
   };
 
   const footerLinks = {
     company: [
       { name: "About Us", href: "#" },
-      { name: "Our Team", href: "#" },
+      { name: "Pricing", href: "#" },
       { name: "Contact Us", href: "#" }
     ],
     products: [
-      { name: "Ayrton Simulation", href: "/ayrton" },
+      { name: "Ayrton", href: "/ayrton" },
+      { name: "Ayrton 2.0 coming soon", href: "/ayrton", className: "text-green-500 font-medium" },
     ],
     resources: [
       { name: "Community", href: "#" },
@@ -36,8 +70,6 @@ export default function Footer() {
     legal: [
       { name: "Privacy Policy", href: "#" },
       { name: "Terms of Service", href: "#" },
-      { name: "Cookie Policy", href: "#" },
-      { name: "GDPR", href: "#" }
     ]
   };
 
@@ -74,120 +106,242 @@ export default function Footer() {
 
   return (
     <footer className="bg-black border-t border-gray-800 text-white">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 py-16">
+      <div className="max-w-7xl mx-auto px-9 sm:px-8 md:px-8 lg:px-16 py-16">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-12">
-          
-          {/* Company Info */}
-          <div className="lg:col-span-2">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-                Noether Labs
-              </h3>
-              <p className="text-gray-400 text-sm leading-relaxed mb-6 max-w-xs">
-                Revolutionizing engineering simulation with AI-powered cloud solutions. 
-                From concept to results in three simple steps.
-              </p>
+        <div className="mb-12">
+          {/* Mobile Layout (2 columns) */}
+          <div className="block md:hidden">
+            {/* Company Info */}
+            <div className="mb-8">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+                  Noether Labs
+                </h3>
+                <p className="text-gray-400 text-sm leading-relaxed mb-6 max-w-xs">
+                  Revolutionizing engineering simulation with AI-powered cloud solutions. 
+                  From concept to results in three simple steps.
+                </p>
+                
+                {/* Social Links */}
+                <div className="flex space-x-2">
+                  <AnimatedTooltip items={socialLinks} />
+                </div>
+              </motion.div>
+            </div>
+            
+            {/* Links Grid - 2 columns on mobile */}
+            <div className="grid grid-cols-2 gap-x-12 gap-y-8 ">
+              {/* Company Links */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                viewport={{ once: true }}
+              >
+                <h4 className="font-semibold text-white mb-3 text-base">Company</h4>
+                <ul className="space-y-2">
+                  {footerLinks.company.map((link) => (
+                    <li key={link.name}>
+                      <a 
+                        href={link.href}
+                        className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+
+              {/* Products Links */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
+                <h4 className="font-semibold text-white mb-3 text-base">Products</h4>
+                <ul className="space-y-2">
+                  {footerLinks.products.map((link) => (
+                    <li key={link.name}>
+                      <a 
+                        href={link.href}
+                        className={link.className || "text-gray-400 hover:text-white transition-colors duration-300 text-sm"}
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
               
-              {/* Social Links */}
-              <div className="flex space-x-2">
-                <AnimatedTooltip items={socialLinks} />
-              </div>
-            </motion.div>
+              {/* Resources Links */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                viewport={{ once: true }}
+              >
+                <h4 className="font-semibold text-white mb-3 text-base">Resources</h4>
+                <ul className="space-y-2">
+                  {footerLinks.resources.map((link) => (
+                    <li key={link.name}>
+                      <a 
+                        href={link.href}
+                        className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+
+              {/* Legal Links */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                viewport={{ once: true }}
+              >
+                <h4 className="font-semibold text-white mb-3 text-base">Legal</h4>
+                <ul className="space-y-2">
+                  {footerLinks.legal.map((link) => (
+                    <li key={link.name}>
+                      <a 
+                        href={link.href}
+                        className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            </div>
           </div>
+          
+          {/* Desktop Layout (horizontal layout) */}
+          <div className="hidden md:flex flex-wrap">
+            {/* Left Column - Company Info */}
+            <div className="md:w-1/3 lg:w-1/4 pr-8">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+                  Noether Labs
+                </h3>
+                <p className="text-gray-400 text-sm leading-relaxed mb-6 max-w-xs">
+                  Revolutionizing engineering simulation with AI-powered cloud solutions. 
+                  From concept to results in three simple steps.
+                </p>
+                
+                {/* Social Links */}
+                <div className="flex space-x-2">
+                  <AnimatedTooltip items={socialLinks} />
+                </div>
+              </motion.div>
+            </div>
+            
+            {/* Right Columns - Navigation Links */}
+            <div className="md:w-2/3 lg:w-3/4 flex flex-wrap justify-between">
+              {/* Company Links */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                viewport={{ once: true }}
+              >
+                <h4 className="font-semibold text-white mb-3 text-base">Company</h4>
+                <ul className="space-y-2">
+                  {footerLinks.company.map((link) => (
+                    <li key={link.name}>
+                      <a 
+                        href={link.href}
+                        className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
 
-          {/* Company Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            viewport={{ once: true }}
-          >
-            <h4 className="font-semibold text-white mb-4">Company</h4>
-            <ul className="space-y-2">
-              {footerLinks.company.map((link) => (
-                <li key={link.name}>
-                  <a 
-                    href={link.href}
-                    className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
+              {/* Products Links */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
+                <h4 className="font-semibold text-white mb-3 text-base">Products</h4>
+                <ul className="space-y-2">
+                  {footerLinks.products.map((link) => (
+                    <li key={link.name}>
+                      <a 
+                        href={link.href}
+                        className={link.className || "text-gray-400 hover:text-white transition-colors duration-300 text-sm"}
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
 
-          {/* Products Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <h4 className="font-semibold text-white mb-4">Products</h4>
-            <ul className="space-y-2">
-              {footerLinks.products.map((link) => (
-                <li key={link.name}>
-                  <a 
-                    href={link.href}
-                    className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
+              {/* Resources Links */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                viewport={{ once: true }}
+              >
+                <h4 className="font-semibold text-white mb-3 text-base">Resources</h4>
+                <ul className="space-y-2">
+                  {footerLinks.resources.map((link) => (
+                    <li key={link.name}>
+                      <a 
+                        href={link.href}
+                        className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
 
-          {/* Resources Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}
-          >
-            <h4 className="font-semibold text-white mb-4">Resources</h4>
-            <ul className="space-y-2">
-              {footerLinks.resources.map((link) => (
-                <li key={link.name}>
-                  <a 
-                    href={link.href}
-                    className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Legal Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <h4 className="font-semibold text-white mb-4">Legal</h4>
-            <ul className="space-y-2">
-              {footerLinks.legal.map((link) => (
-                <li key={link.name}>
-                  <a 
-                    href={link.href}
-                    className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
+              {/* Legal Links */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                viewport={{ once: true }}
+              >
+                <h4 className="font-semibold text-white mb-3 text-base">Legal</h4>
+                <ul className="space-y-2">
+                  {footerLinks.legal.map((link) => (
+                    <li key={link.name}>
+                      <a 
+                        href={link.href}
+                        className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            </div>
+          </div>
         </div>
 
         {/* Newsletter Signup */}

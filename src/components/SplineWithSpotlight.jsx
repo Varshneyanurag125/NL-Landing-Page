@@ -36,9 +36,9 @@ export default function SplineWithSpotlight() {
         />
         
         {/* Text overlay */}
-        <div className="absolute top-35 left-0 right-0 flex flex-col items-center justify-center p-8 text-center text-white z-30">
+        <div className="absolute top-35 left-0 right-0 flex flex-col items-center justify-center p-5 text-center text-white z-30">
             <span 
-              className="text-8xl font-bold font-montserrat tracking-[1rem]"
+              className="text-7xl  px-1 sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-montserrat tracking-[0.5rem] sm:tracking-[0.75rem] md:tracking-[1rem]"
               style={{
                 background: 'linear-gradient(to bottom, #ffffff 0%, #373737 100%)',
                 WebkitBackgroundClip: 'text',

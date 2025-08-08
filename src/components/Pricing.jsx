@@ -60,10 +60,34 @@ export default function Pricing() {
           </p>
         </motion.div>
 
-        {/* Remove Billing Toggle - Not needed for this theme */}
+        {/* Billing Toggle */}
+        <div className="flex justify-center mb-12">
+          <div className="bg-zinc-900 p-1 rounded-lg flex items-center">
+            <button
+              onClick={() => setIsAnnual(false)}
+              className={`px-6 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                !isAnnual 
+                  ? "bg-zinc-800 text-white shadow-md" 
+                  : "text-gray-400 hover:text-gray-300"
+              }`}
+            >
+              Monthly
+            </button>
+            <button
+              onClick={() => setIsAnnual(true)}
+              className={`px-6 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                isAnnual 
+                  ? "bg-zinc-800 text-white shadow-md" 
+                  : "text-gray-400 hover:text-gray-300"
+              }`}
+            >
+              Annual <span className="text-green-400 ml-1">Save 20%</span>
+            </button>
+          </div>
+        </div>
 
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-9 max-w-4xl mx-auto">
           {plans.map((plan, index) => (
             <motion.div
               key={plan.name}
@@ -108,20 +132,38 @@ export default function Pricing() {
 
                     {/* Price Section */}
                     <div className="mb-8">
-                      <div className="flex items-baseline gap-1 mb-2">
-                        <span className="text-4xl font-normal text-white">₹</span>
-                        <span className="text-7xl font-bold text-white leading-none">
-                          {plan.monthlyPrice.toLocaleString()}
-                        </span>
-                        <span className="text-lg text-gray-400">monthly /</span>
-                      </div>
-                      <div className="flex items-baseline gap-1">
-                        <span className="text-2xl font-normal text-white">₹</span>
-                        <span className="text-3xl font-bold text-white">
-                          {plan.annualPrice.toLocaleString()}
-                        </span>
-                        <span className="text-lg text-gray-400">annually</span>
-                      </div>
+                      {!isAnnual ? (
+                        /* Monthly Pricing */
+                        <div>
+                          <div className="flex items-baseline gap-1 mb-2">
+                            <span className="text-4xl font-normal text-white">₹</span>
+                            <span className="text-7xl font-bold text-white leading-none">
+                              {plan.monthlyPrice.toLocaleString()}
+                            </span>
+                            <span className="text-lg text-gray-400">/month</span>
+                          </div>
+                          <div className="mt-2 text-sm text-gray-400">
+                            Billed monthly
+                          </div>
+                        </div>
+                      ) : (
+                        /* Annual Pricing */
+                        <div>
+                          <div className="flex items-baseline gap-1 mb-2">
+                            <span className="text-4xl font-normal text-white">₹</span>
+                            <span className="text-7xl font-bold text-white leading-none">
+                              {plan.annualPrice.toLocaleString()}
+                            </span>
+                            <span className="text-lg text-gray-400">/month</span>
+                          </div>
+                          <div className="mt-2 text-sm text-gray-400">
+                            Billed annually (₹{(plan.annualPrice * 12).toLocaleString()})
+                          </div>
+                          <div className="mt-2 text-sm text-green-400 font-semibold">
+                            Save ₹{((plan.monthlyPrice - plan.annualPrice) * 12).toLocaleString()} per year
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     {/* CTA Button */}
@@ -130,7 +172,7 @@ export default function Pricing() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      {plan.buttonText}
+                      {plan.buttonText} {isAnnual ? '(Annual)' : '(Monthly)'}
                     </motion.button>
 
                     {/* Features List */}

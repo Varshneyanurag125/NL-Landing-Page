@@ -67,10 +67,10 @@ export default function AboutUs() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white ">
             About Noether Labs
           </h1>
-          <p className="text-xl text-gray-400 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-400 max-w-4xl mx-auto leading-relaxed px-3 text-justify">
             We're revolutionizing physics simulation with cutting-edge technology, making complex modeling accessible to researchers, engineers, and innovators worldwide.
           </p>
         </motion.div>
@@ -84,17 +84,17 @@ export default function AboutUs() {
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Our Mission</h2>
-              <p className="text-lg text-gray-300 leading-relaxed mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white text-center">Our Mission</h2>
+              <p className="text-lg text-gray-300 leading-relaxed mb-6 text-justify px-2">
                 Named after Emmy Noether, the brilliant mathematician who revolutionized theoretical physics, 
                 we carry forward her legacy of groundbreaking discovery and innovation.
               </p>
-              <p className="text-lg text-gray-300 leading-relaxed">
+              <p className="text-lg text-gray-300 leading-relaxed text-justify px-2">
                 Our mission is to democratize advanced physics simulation, providing powerful tools that 
                 accelerate scientific discovery and engineering innovation across industries.
               </p>
             </div>
-            <div className="bg-zinc-900 rounded-2xl p-8 border border-zinc-700">
+            <div className="bg-zinc-900 rounded-2xl p-8 border border-zinc-700 mx-3">
               <h3 className="text-2xl font-bold mb-4 text-white">Our Values</h3>
               <ul className="space-y-3">
                 {[
@@ -129,7 +129,7 @@ export default function AboutUs() {
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-white">
             What We Offer
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-3 lg:mx-auto md:mx-auto xl:mx-auto">
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
@@ -157,7 +157,7 @@ export default function AboutUs() {
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-white">
             Meet Our Team
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-3 lg:mx-auto md:mx-auto xl:mx-auto justify-center ">
             {teamMembers.map((member, index) => (
               <motion.div
                 key={member.name}
@@ -180,7 +180,7 @@ export default function AboutUs() {
 
         {/* CTA Section */}
         <motion.div
-          className="text-center"
+          className="text-center px-3"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}

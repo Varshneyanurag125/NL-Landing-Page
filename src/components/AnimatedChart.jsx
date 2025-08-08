@@ -29,11 +29,11 @@ export default function AnimatedChart() {
 
   const BarChart = ({ data, title, index }) => (
     <div className="mb-16">
-      <h2 className="text-4xl md:text-5xl font-bold text-white mb-12">
+      <h2 className="text-3xl md:text-5xl font-bold text-white text-center mb-8">
         {title}
       </h2>
       
-      <div className="space-y-8">
+      <div className="space-y-8 px-4">
         {data.map((item, barIndex) => (
           <div
             key={item.label}
@@ -123,7 +123,7 @@ export default function AnimatedChart() {
 
         {/* Performance Stats */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-20"
+          className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10 px-2"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.5 }}
