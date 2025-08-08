@@ -191,12 +191,12 @@ export function TracingBeamDemo() {
       
       <div className="max-w-6xl mx-auto relative z-10 shadow-[0_-8px_10px_-2px_rgba(0,0,0,0.9)]">
         <div className="text-center mb-10">
-          <h1 className="text-6xl font-bold font-montserrat bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent mb-2">
+          <h1 className="text-5xl lg:text-6xl font-bold font-montserrat bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent mb-2">
             Our Vision
           </h1>
           <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-white to-transparent mx-auto opacity-60"></div>
         </div>
-        <TracingBeam className="w-full pl-16 md:pl-24">
+        <TracingBeam className="w-full pl-6 md:pl-24 ">
           <div className="w-full antialiased relative">
             {visionContent.map((item, index) => (
               <div key={`content-${index}`} className="mb-20 w-full">

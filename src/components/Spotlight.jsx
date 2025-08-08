@@ -29,18 +29,22 @@ export function SpotlightPreview() {
       />
       
       <Spotlight />
-      <div className="relative z-10 mx-auto w-full max-w-7xl p-4 flex items-center justify-center h-full">
+      <div className="relative z-10 mx-auto w-full max-w-7xl p-4 sm:p-6 md:p-8 flex items-center justify-center h-full mt-12">
         <div className="text-center">
           <h1
-            className="text-black dark:bg-opacity-50 dark:bg-gradient-to-b dark:from-neutral-50 dark:to-neutral-400 dark:bg-clip-text text-6xl md:text-8xl lg:text-7xl tracking-[1rem] dark:text-transparent">
+            className="text-black dark:bg-opacity-50 dark:bg-gradient-to-b dark:from-neutral-50 dark:to-neutral-400 dark:bg-clip-text 
+            text-5xl pb-2 sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 
+            tracking-[0.5rem] sm:tracking-[0.75rem] md:tracking-[1rem] 
+            px-4 sm:px-6 md:px-8
+            dark:text-transparent">
             NOETHER LABS
           </h1>
           <p
-            className="mx-auto mt-4 max-w-lg text-center text-base font-normal text-neutral-300">
-            Spotlight effect is a great way to draw attention to a specific part
-            of the page. Here, we are drawing the attention towards the text
-            section of the page. I don&apos;t know why but I&apos;m running out of
-            copy.
+            className="mx-auto mt-2 lg:mt-1 sm:mt-3 md:mt-4 max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-2xl 
+            text-center text-sm sm:text-base md:text-lg 
+            px-4 sm:px-6 md:px-8
+            font-normal text-neutral-300">
+            "Accelerate engineering design with AI-powered physics simulation."
           </p>
         </div>
       </div>

@@ -171,7 +171,7 @@ export const MobileNav = ({
         damping: 50,
       }}
       className={cn(
-        "relative z-50 mx-auto flex w-full flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
+        "relative z-50 mx-auto flex w-full flex-col items-center justify-between bg-transparent px-0 py-1 lg:hidden",
         visible && (isMobile ? "bg-black/90 dark:bg-black/90" : "bg-white/80 dark:bg-neutral-950/80"),
         className
       )}>
@@ -186,7 +186,7 @@ export const MobileNavHeader = ({
 }) => {
   return (
     <div
-      className={cn("flex w-full flex-row items-center justify-between px-4 py-2", className)}>
+      className={cn("flex w-full flex-row items-center justify-between px-4 py-1", className)}>
       {children}
     </div>
   );
@@ -224,7 +224,7 @@ export const MobileNavMenu = ({
           exit={{ opacity: 0 }}
           className={cn(
             isMobile ? 
-              "absolute inset-x-0 top-12 z-50 flex w-full flex-col items-start justify-start gap-4 bg-black px-4 py-6 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-black" : 
+              "absolute inset-x-0 top-13 z-50 flex w-full flex-col items-start justify-start gap-4 bg-black px-4 py-6 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-black" : 
               "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-neutral-950",
             className
           )}>
