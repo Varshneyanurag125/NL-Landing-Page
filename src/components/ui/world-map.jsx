@@ -1,25 +1,26 @@
-"use client";;
-import { useRef } from "react";
-import { motion } from "motion/react";
-import DottedMap from "dotted-map";
+'use client';
+import { useRef, useMemo } from 'react';
+import { motion } from 'motion/react';
+import DottedMap from 'dotted-map';
 
-import { useTheme } from "next-themes";
+import { useTheme } from 'next-themes';
 
-export function WorldMap({
-  dots = [],
-  lineColor = "#0ea5e9"
-}) {
+export function WorldMap({ dots = [], lineColor = '#0ea5e9' }) {
   const svgRef = useRef(null);
-  const map = new DottedMap({ height: 100, grid: "diagonal" });
+
+  // Memoize the map instance and SVG to prevent re-creation on every render
+  const { map, svgMap } = useMemo(() => {
+    const mapInstance = new DottedMap({ height: 100, grid: 'diagonal' });
+    const svg = mapInstance.getSVG({
+      radius: 0.22,
+      color: '#808080',
+      shape: 'circle',
+      backgroundColor: 'black',
+    });
+    return { map: mapInstance, svgMap: svg };
+  }, []); // Empty dependency array - only create once
 
   const { theme } = useTheme();
-
-  const svgMap = map.getSVG({
-    radius: 0.22,
-    color: "#808080",
-    shape: "circle",
-    backgroundColor: "black",
-  });
 
   const projectPoint = (lat, lng) => {
     const x = (lng + 180) * (800 / 360);
@@ -27,40 +28,45 @@ export function WorldMap({
     return { x, y };
   };
 
-  const createCurvedPath = (
-    start,
-    end
-  ) => {
+  const createCurvedPath = (start, end) => {
     const midX = (start.x + end.x) / 2;
     const midY = Math.min(start.y, end.y) - 50;
     return `M ${start.x} ${start.y} Q ${midX} ${midY} ${end.x} ${end.y}`;
   };
 
+  // Memoize projected points to avoid recalculation
+  const projectedDots = useMemo(() => {
+    return dots.map((dot) => ({
+      start: projectPoint(dot.start.lat, dot.start.lng),
+      end: projectPoint(dot.end.lat, dot.end.lng),
+      original: dot,
+    }));
+  }, [dots]);
+
   return (
-    <div
-      className="w-full aspect-[2/1] bg-black rounded-lg relative font-sans overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/50 to-transparent z-10 pointer-events-none"></div>
+    <div className='w-full aspect-[2/1] bg-black rounded-lg relative font-sans overflow-hidden'>
+      <div className='absolute inset-0 bg-gradient-to-b from-black via-black/50 to-transparent z-10 pointer-events-none'></div>
       <img
         src={`data:image/svg+xml;utf8,${encodeURIComponent(svgMap)}`}
-        className="h-full w-full pointer-events-none select-none"
-        alt="world map"
-        height="495"
-        width="1056"
-        draggable={false} />
+        className='h-full w-full pointer-events-none select-none'
+        alt='world map'
+        height='495'
+        width='1056'
+        draggable={false}
+      />
       <svg
         ref={svgRef}
-        viewBox="0 0 800 400"
-        className="w-full h-full absolute inset-0 pointer-events-none select-none">
-        {dots.map((dot, i) => {
-          const startPoint = projectPoint(dot.start.lat, dot.start.lng);
-          const endPoint = projectPoint(dot.end.lat, dot.end.lng);
+        viewBox='0 0 800 400'
+        className='w-full h-full absolute inset-0 pointer-events-none select-none'
+      >
+        {projectedDots.map((dot, i) => {
           return (
             <g key={`path-group-${i}`}>
               <motion.path
-                d={createCurvedPath(startPoint, endPoint)}
-                fill="none"
-                stroke="url(#path-gradient)"
-                strokeWidth="1"
+                d={createCurvedPath(dot.start, dot.end)}
+                fill='none'
+                stroke='url(#path-gradient)'
+                strokeWidth='1'
                 initial={{
                   pathLength: 0,
                 }}
@@ -68,80 +74,84 @@ export function WorldMap({
                   pathLength: 1,
                 }}
                 transition={{
-                  duration: 1,
-                  delay: 0.5 * i,
-                  ease: "easeOut",
+                  duration: 2,
+                  delay: 0.3 * i,
+                  ease: 'easeOut',
                 }}
-                key={`start-upper-${i}`}></motion.path>
+                key={`start-upper-${i}`}
+              ></motion.path>
             </g>
           );
         })}
 
         <defs>
-          <linearGradient id="path-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="white" stopOpacity="0" />
-            <stop offset="5%" stopColor={lineColor} stopOpacity="1" />
-            <stop offset="95%" stopColor={lineColor} stopOpacity="1" />
-            <stop offset="100%" stopColor="white" stopOpacity="0" />
+          <linearGradient id='path-gradient' x1='0%' y1='0%' x2='100%' y2='0%'>
+            <stop offset='0%' stopColor='white' stopOpacity='0' />
+            <stop offset='5%' stopColor={lineColor} stopOpacity='1' />
+            <stop offset='95%' stopColor={lineColor} stopOpacity='1' />
+            <stop offset='100%' stopColor='white' stopOpacity='0' />
           </linearGradient>
         </defs>
 
-        {dots.map((dot, i) => (
+        {projectedDots.map((dot, i) => (
           <g key={`points-group-${i}`}>
             <g key={`start-${i}`}>
               <circle
-                cx={projectPoint(dot.start.lat, dot.start.lng).x}
-                cy={projectPoint(dot.start.lat, dot.start.lng).y}
-                r="2"
-                fill={lineColor} />
-              <circle
-                cx={projectPoint(dot.start.lat, dot.start.lng).x}
-                cy={projectPoint(dot.start.lat, dot.start.lng).y}
-                r="2"
+                cx={dot.start.x}
+                cy={dot.start.y}
+                r='2'
                 fill={lineColor}
-                opacity="0.5">
+              />
+              <circle
+                cx={dot.start.x}
+                cy={dot.start.y}
+                r='2'
+                fill={lineColor}
+                opacity='0.5'
+              >
                 <animate
-                  attributeName="r"
-                  from="2"
-                  to="8"
-                  dur="1.5s"
-                  begin="0s"
-                  repeatCount="indefinite" />
+                  attributeName='r'
+                  from='2'
+                  to='6'
+                  dur='2s'
+                  begin='0s'
+                  repeatCount='indefinite'
+                />
                 <animate
-                  attributeName="opacity"
-                  from="0.5"
-                  to="0"
-                  dur="1.5s"
-                  begin="0s"
-                  repeatCount="indefinite" />
+                  attributeName='opacity'
+                  from='0.5'
+                  to='0'
+                  dur='2s'
+                  begin='0s'
+                  repeatCount='indefinite'
+                />
               </circle>
             </g>
             <g key={`end-${i}`}>
+              <circle cx={dot.end.x} cy={dot.end.y} r='2' fill={lineColor} />
               <circle
-                cx={projectPoint(dot.end.lat, dot.end.lng).x}
-                cy={projectPoint(dot.end.lat, dot.end.lng).y}
-                r="2"
-                fill={lineColor} />
-              <circle
-                cx={projectPoint(dot.end.lat, dot.end.lng).x}
-                cy={projectPoint(dot.end.lat, dot.end.lng).y}
-                r="2"
+                cx={dot.end.x}
+                cy={dot.end.y}
+                r='2'
                 fill={lineColor}
-                opacity="0.5">
+                opacity='0.5'
+              >
                 <animate
-                  attributeName="r"
-                  from="2"
-                  to="8"
-                  dur="1.5s"
-                  begin="0s"
-                  repeatCount="indefinite" />
+                  attributeName='r'
+                  from='2'
+                  to='6'
+                  dur='2s'
+                  begin='0s'
+                  repeatCount='indefinite'
+                />
                 <animate
-                  attributeName="opacity"
-                  from="0.5"
-                  to="0"
-                  dur="1.5s"
-                  begin="0s"
-                  repeatCount="indefinite" />
+                  attributeName='opacity'
+                  from='0.5'
+                  to='0'
+                  dur='2s'
+                  begin='0s'
+                  repeatCount='indefinite'
+                />
               </circle>
             </g>
           </g>

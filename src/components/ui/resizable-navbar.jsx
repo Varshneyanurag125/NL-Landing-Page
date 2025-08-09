@@ -115,12 +115,12 @@ export const NavItems = ({
           href={item.link}
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
-          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
+          className="relative px-4 py-2 text-neutral-300 dark:text-neutral-300"
         >
           {hovered === idx && (
             <motion.div
               layoutId="hovered"
-              className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800" />
+              className="absolute inset-0 h-full w-full rounded-full bg-neutral-800" />
           )}
           <span className="relative z-20">{item.name}</span>
         </Link>
@@ -257,7 +257,7 @@ export const NavbarLogo = () => {
         className="pb-1"
         width={30}
         height={30} />
-      <span className=" pl-1 font-montserrat font-medium text-black dark:text-white tracking-[.3rem]">NOETHER LABS</span>
+      <span className=" pl-1 font-montserrat font-medium text-white tracking-[.3rem]">NOETHER LABS</span>
     </a>
   );
 };

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip';
 import { Button } from '@/components/ui/stateful-button';
 import { toast } from 'sonner';
@@ -14,11 +14,11 @@ export default function Footer() {
       toast.error('Please enter a valid email address');
       throw new Error('Please enter a valid email address');
     }
-    
+
     try {
       // Show loading toast
       toast.loading('Subscribing...');
-      
+
       const response = await fetch('/api/subscribe', {
         method: 'POST',
         headers: {
@@ -26,28 +26,28 @@ export default function Footer() {
         },
         body: JSON.stringify({ email }),
       });
-      
+
       const data = await response.json();
-      
+
       // Dismiss all toasts
       toast.dismiss();
-      
+
       if (!response.ok) {
         console.error('API error:', data);
         toast.error(data.error || 'Subscription failed. Please try again.');
         throw new Error(data.error || 'Subscription failed');
       }
-      
+
       // Show success message
       toast.success('Thank you for subscribing!');
-      
+
       // Reset email on success
       setEmail('');
       return true;
     } catch (error) {
       // Dismiss any loading toasts
       toast.dismiss();
-      
+
       console.error('Subscription error:', error);
       toast.error(error.message || 'Failed to subscribe. Please try again.');
       throw error;
@@ -56,86 +56,92 @@ export default function Footer() {
 
   const footerLinks = {
     company: [
-      { name: "About Us", href: "#" },
-      { name: "Pricing", href: "#" },
-      { name: "Contact Us", href: "#" }
+      { name: 'About Us', href: '#' },
+      { name: 'Pricing', href: '#' },
+      { name: 'Contact Us', href: '#' },
     ],
     products: [
-      { name: "Ayrton", href: "/ayrton" },
-      { name: "Ayrton 2.0 coming soon", href: "/ayrton", className: "text-green-500 font-medium" },
+      { name: 'Ayrton', href: '/ayrton' },
+      {
+        name: 'Ayrton 2.0 coming soon',
+        href: '/ayrton',
+        className: 'text-green-500 font-medium',
+      },
     ],
-    resources: [
-      { name: "Community", href: "#" },
-    ],
+    resources: [{ name: 'Community', href: '#' }],
     legal: [
-      { name: "Privacy Policy", href: "#" },
-      { name: "Terms of Service", href: "#" },
-    ]
+      { name: 'Privacy Policy', href: '#' },
+      { name: 'Terms of Service', href: '#' },
+    ],
   };
 
   const socialLinks = [
-    { 
+    {
       id: 1,
-      name: "Twitter",
-      designation: "Follow us on X",
-      image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzE4MTgxOCIvPgo8cGF0aCBkPSJNMjcuMjQ0IDEyLjI1aDMuMzA4bC03LjIyNyA4LjI2IDguNTAyIDExLjI0SDE5LjE3bC01LjIxNC02LjgxN0w3Ljk5IDMxLjc1SDQuNjhsNy43My04LjgzNUw0LjI1NCAxMi4yNUgxMS4wOGw0LjcxMyA2LjIzMXptLTEuMTYxIDE3LjUyaDEuODMzTDEwLjA4NCAxNC4xMjZIOC4xMTd6IiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K",
-      href: "#"
+      name: 'Twitter',
+      designation: 'Follow us on X',
+      image:
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzE4MTgxOCIvPgo8cGF0aCBkPSJNMjcuMjQ0IDEyLjI1aDMuMzA4bC03LjIyNyA4LjI2IDguNTAyIDExLjI0SDE5LjE3bC01LjIxNC02LjgxN0w3Ljk5IDMxLjc1SDQuNjhsNy43My04LjgzNUw0LjI1NCAxMi4yNUgxMS4wOGw0LjcxMyA2LjIzMXptLTEuMTYxIDE3LjUyaDEuODMzTDEwLjA4NCAxNC4xMjZIOC4xMTd6IiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K',
+      href: '#',
     },
-    { 
+    {
       id: 2,
-      name: "LinkedIn",
-      designation: "Connect with us",
-      image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzE4MTgxOCIvPgo8cGF0aCBkPSJNMzAuNDQ3IDMwLjQ1MmgtMy41NTR2LTUuNTY5YzAtMS4zMjgtLjAyNy0zLjAzNy0xLjg1Mi0zLjAzNy0xLjg1MyAwLTIuMTM2IDEuNDQ1LTIuMTM2IDIuOTM5djUuNjY3SDE5LjM1MVYxOWgzLjQxNHYxLjU2MWguMDQ2Yy40NzctLjkgMS42MzctMS44NSAzLjM3LTEuODUgMy42MDEgMCA0LjI2NyAyLjM3IDQuMjY3IDUuNDU1djYuMjg2ek0xNS4zMzcgMTcuNDMzYy0xLjE0NCAwLTIuMDYzLS45MjYtMi4wNjMtMi4wNjUgMC0xLjEzOC45Mi0yLjA2MyAyLjA2My0yLjA2MyAxLjE0IDAgMi4wNjQuOTI1IDIuMDY0IDIuMDYzIDAgMS4xMzktLjkyNSAyLjA2NS0yLjA2NCAyLjA2NXptMS43ODIgMTMuMDE5SDEzLjU1NVYxOWgzLjU2NHYxMS40NTJ6TTMyLjIyNSAxMEgxMS43NzFDMTAuNzkyIDEwIDEwIDEwLjc3NCAxMCAxMS43Mjl2MjAuNTQyQzEwIDMzLjIyNyAxMC43OTIgMzQgMTEuNzcxIDM0aDIwLjQ1MUMzMy4yIDM0IDM0IDMzLjIyNyAzNCAzMi4yNzFWMTEuNzI5QzM0IDEwLjc3NCAzMy4yIDEwIDMyLjIyMiAxMGguMDAzeiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==",
-      href: "#"
+      name: 'LinkedIn',
+      designation: 'Connect with us',
+      image:
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzE4MTgxOCIvPgo8cGF0aCBkPSJNMzAuNDQ3IDMwLjQ1MmgtMy41NTR2LTUuNTY5YzAtMS4zMjgtLjAyNy0zLjAzNy0xLjg1Mi0zLjAzNy0xLjg1MyAwLTIuMTM2IDEuNDQ1LTIuMTM2IDIuOTM5djUuNjY3SDE5LjM1MVYxOWgzLjQxNHYxLjU2MWguMDQ2Yy40NzctLjkgMS42MzctMS44NSAzLjM3LTEuODUgMy42MDEgMCA0LjI2NyAyLjM3IDQuMjY3IDUuNDU1djYuMjg2ek0xNS4zMzcgMTcuNDMzYy0xLjE0NCAwLTIuMDYzLS45MjYtMi4wNjMtMi4wNjUgMC0xLjEzOC45Mi0yLjA2MyAyLjA2My0yLjA2MyAxLjE0IDAgMi4wNjQuOTI1IDIuMDY0IDIuMDYzIDAgMS4xMzktLjkyNSAyLjA2NS0yLjA2NCAyLjA2NXptMS43ODIgMTMuMDE5SDEzLjU1NVYxOWgzLjU2NHYxMS40NTJ6TTMyLjIyNSAxMEgxMS43NzFDMTAuNzkyIDEwIDEwIDEwLjc3NCAxMCAxMS43Mjl2MjAuNTQyQzEwIDMzLjIyNyAxMC43OTIgMzQgMTEuNzcxIDM0aDIwLjQ1MUMzMy4yIDM0IDM0IDMzLjIyNyAzNCAzMi4yNzFWMTEuNzI5QzM0IDEwLjc3NCAzMy4yIDEwIDMyLjIyMiAxMGguMDAzeiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==',
+      href: '#',
     },
-    { 
+    {
       id: 3,
-      name: "GitHub",
-      designation: "View our code",
-         image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzE4MTgxOCIvPgo8cGF0aCBkPSJNMjIgMTBjLTYuNjI2IDAtMTIgNS4zNzMtMTIgMTIgMCA1LjMwMiAzLjQzOCA5LjggOC4yMDcgMTEuMzg3LjU5OS4xMTEuNzkzLS4yNjEuNzkzLS41Nzd2LTIuMjM0Yy0zLjMzOC43MjYtNC4wMzMtMS40MTYtNC4wMzMtMS40MTYtLjU0Ni0xLjM4Ny0xLjMzMy0xLjc1Ni0xLjMzMy0xLjc1Ni0xLjA4OS0uNzQ1LjA4My0uNzI5LjA4My0uNzI5IDEuMjA1LjA4NCAxLjgzOSAxLjIzNyAxLjgzOSAxLjIzNyAxLjA3IDEuODM0IDIuODA3IDEuMzA0IDMuNDkyLjk5Ny4xMDctLjc3NS40MTgtMS4zMDUuNzYyLTEuNjA0LTIuNjY1LS4zMDUtNS40NjctMS4zMzQtNS40NjctNS45MzEgMC0xLjMxMS40NjktMi4zODEgMS4yMzYtMy4yMjEtLjEyNC0uMzAzLS41MzUtMS41MjQuMTE3LTMuMTc2IDAgMCAxLjAwOC0uMzIyIDMuMzAxIDEuMjMuOTU3LS4yNjYgMS45ODMtLjM5OSAzLjAwMy0uNDA0IDEuMDIuMDA1IDIuMDQ3LjEzOCAzLjAwNi40MDQgMi4yOTEtMS41NTIgMy4yOTctMS4yMyAzLjI5Ny0xLjIzLjY1MyAxLjY1My4yNDIgMi44NzQuMTE4IDMuMTc2Ljc3Ljg0IDEuMjM1IDEuOTExIDEuMjM1IDMuMjIxIDAgNC42MDktMi44MDcgNS42MjQtNS40NzkgNS45MjEuNDMuMzcyLjgyMyAxLjEwMi44MjMgMi4yMjJ2My4yOTNjMCAuMzE5LjE5Mi42OTQuODAxLjU3NiA0Ljc2NS0xLjU4OSA4LjE5OS02LjA4NiA4LjE5OS0xMS4zODYgMC02LjYyNy01LjM3My0xMi0xMi0xMnoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=",
-      href: "#"
+      name: 'GitHub',
+      designation: 'View our code',
+      image:
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzE4MTgxOCIvPgo8cGF0aCBkPSJNMjIgMTBjLTYuNjI2IDAtMTIgNS4zNzMtMTIgMTIgMCA1LjMwMiAzLjQzOCA5LjggOC4yMDcgMTEuMzg3LjU5OS4xMTEuNzkzLS4yNjEuNzkzLS41Nzd2LTIuMjM0Yy0zLjMzOC43MjYtNC4wMzMtMS40MTYtNC4wMzMtMS40MTYtLjU0Ni0xLjM4Ny0xLjMzMy0xLjc1Ni0xLjMzMy0xLjc1Ni0xLjA4OS0uNzQ1LjA4My0uNzI5LjA4My0uNzI5IDEuMjA1LjA4NCAxLjgzOSAxLjIzNyAxLjgzOSAxLjIzNyAxLjA3IDEuODM0IDIuODA3IDEuMzA0IDMuNDkyLjk5Ny4xMDctLjc3NS40MTgtMS4zMDUuNzYyLTEuNjA0LTIuNjY1LS4zMDUtNS40NjctMS4zMzQtNS40NjctNS45MzEgMC0xLjMxMS40NjktMi4zODEgMS4yMzYtMy4yMjEtLjEyNC0uMzAzLS41MzUtMS41MjQuMTE3LTMuMTc2IDAgMCAxLjAwOC0uMzIyIDMuMzAxIDEuMjMuOTU3LS4yNjYgMS45ODMtLjM5OSAzLjAwMy0uNDA0IDEuMDIuMDA1IDIuMDQ3LjEzOCAzLjAwNi40MDQgMi4yOTEtMS41NTIgMy4yOTctMS4yMyAzLjI5Ny0xLjIzLjY1MyAxLjY1My4yNDIgMi44NzQuMTE4IDMuMTc2Ljc3Ljg0IDEuMjM1IDEuOTExIDEuMjM1IDMuMjIxIDAgNC42MDktMi44MDcgNS42MjQtNS40NzkgNS45MjEuNDMuMzcyLjgyMyAxLjEwMi44MjMgMi4yMjJ2My4yOTNjMCAuMzE5LjE5Mi42OTQuODAxLjU3NiA0Ljc2NS0xLjU4OSA4LjE5OS02LjA4NiA4LjE5OS0xMS4zODYgMC02LjYyNy01LjM3My0xMi0xMi0xMnoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=',
+      href: '#',
     },
-    { 
+    {
       id: 4,
-      name: "Email",
-      designation: "Contact us",
-      image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzE4MTgxOCIvPgo8cGF0aCBkPSJNMzQgMTUuNDU3djEzLjkwOWMwIC45MDQtLjczMiAxLjYzNi0xLjYzNiAxLjYzNmgtMy44MTlWMjEuNzNMMjIgMjYuNjRsLTYuNTQ1LTQuOTF2OS4yNzNIOS42MzZBMS42MzYgMS42MzYgMCAwIDEgOCAyOS4zNjZWMTUuNDU3YzAtLjkwNC43MzItMS42MzYgMS42MzYtMS42MzZoLjgzMkwyMiAyMS4zNjdsOS41MzItNy41NDZoLjgzMmMuOTA0IDAgMS42MzYuNzMyIDEuNjM2IDEuNjM2eiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==",
-      href: "mailto:contact@noether.com"
-    }
+      name: 'Email',
+      designation: 'Contact us',
+      image:
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzE4MTgxOCIvPgo8cGF0aCBkPSJNMzQgMTUuNDU3djEzLjkwOWMwIC45MDQtLjczMiAxLjYzNi0xLjYzNiAxLjYzNmgtMy44MTlWMjEuNzNMMjIgMjYuNjRsLTYuNTQ1LTQuOTF2OS4yNzNIOS42MzZBMS42MzYgMS42MzYgMCAwIDEgOCAyOS4zNjZWMTUuNDU3YzAtLjkwNC43MzItMS42MzYgMS42MzYtMS42MzZoLjgzMkwyMiAyMS4zNjdsOS41MzItNy41NDZoLjgzMmMuOTA0IDAgMS42MzYuNzMyIDEuNjM2IDEuNjM2eiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==',
+      href: 'mailto:contact@noether.com',
+    },
   ];
 
   return (
-    <footer className="bg-black border-t border-gray-800 text-white">
-      <div className="max-w-7xl mx-auto px-9 sm:px-8 md:px-8 lg:px-16 py-16">
+    <footer className='bg-black border-t border-gray-800 text-white'>
+      <div className='max-w-7xl mx-auto px-9 sm:px-8 md:px-8 lg:px-16 py-16'>
         {/* Main Footer Content */}
-        <div className="mb-12">
+        <div className='mb-12'>
           {/* Mobile Layout (2 columns) */}
-          <div className="block md:hidden">
+          <div className='block md:hidden'>
             {/* Company Info */}
-            <div className="mb-8">
+            <div className='mb-8'>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+                <h3 className='text-2xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent'>
                   Noether Labs
                 </h3>
-                <p className="text-gray-400 text-sm leading-relaxed mb-6 max-w-xs">
-                  Revolutionizing engineering simulation with AI-powered cloud solutions. 
-                  From concept to results in three simple steps.
+                <p className='text-gray-400 text-sm leading-relaxed mb-6 max-w-xs'>
+                  Revolutionizing engineering simulation with AI-powered cloud
+                  solutions. From concept to results in three simple steps.
                 </p>
-                
+
                 {/* Social Links */}
-                <div className="flex space-x-2">
+                <div className='flex space-x-2'>
                   <AnimatedTooltip items={socialLinks} />
                 </div>
               </motion.div>
             </div>
-            
+
             {/* Links Grid - 2 columns on mobile */}
-            <div className="grid grid-cols-2 gap-x-12 gap-y-8 ">
+            <div className='grid grid-cols-2 gap-x-12 gap-y-8 '>
               {/* Company Links */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -143,13 +149,15 @@ export default function Footer() {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 viewport={{ once: true }}
               >
-                <h4 className="font-semibold text-white mb-3 text-base">Company</h4>
-                <ul className="space-y-2">
+                <h4 className='font-semibold text-white mb-3 text-base'>
+                  Company
+                </h4>
+                <ul className='space-y-2'>
                   {footerLinks.company.map((link) => (
                     <li key={link.name}>
-                      <a 
+                      <a
                         href={link.href}
-                        className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
+                        className='text-gray-400 hover:text-white transition-colors duration-300 text-sm'
                       >
                         {link.name}
                       </a>
@@ -165,13 +173,18 @@ export default function Footer() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 viewport={{ once: true }}
               >
-                <h4 className="font-semibold text-white mb-3 text-base">Products</h4>
-                <ul className="space-y-2">
+                <h4 className='font-semibold text-white mb-3 text-base'>
+                  Products
+                </h4>
+                <ul className='space-y-2'>
                   {footerLinks.products.map((link) => (
                     <li key={link.name}>
-                      <a 
+                      <a
                         href={link.href}
-                        className={link.className || "text-gray-400 hover:text-white transition-colors duration-300 text-sm"}
+                        className={
+                          link.className ||
+                          'text-gray-400 hover:text-white transition-colors duration-300 text-sm'
+                        }
                       >
                         {link.name}
                       </a>
@@ -179,7 +192,7 @@ export default function Footer() {
                   ))}
                 </ul>
               </motion.div>
-              
+
               {/* Resources Links */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -187,13 +200,15 @@ export default function Footer() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 viewport={{ once: true }}
               >
-                <h4 className="font-semibold text-white mb-3 text-base">Resources</h4>
-                <ul className="space-y-2">
+                <h4 className='font-semibold text-white mb-3 text-base'>
+                  Resources
+                </h4>
+                <ul className='space-y-2'>
                   {footerLinks.resources.map((link) => (
                     <li key={link.name}>
-                      <a 
+                      <a
                         href={link.href}
-                        className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
+                        className='text-gray-400 hover:text-white transition-colors duration-300 text-sm'
                       >
                         {link.name}
                       </a>
@@ -209,13 +224,15 @@ export default function Footer() {
                 transition={{ duration: 0.6, delay: 0.4 }}
                 viewport={{ once: true }}
               >
-                <h4 className="font-semibold text-white mb-3 text-base">Legal</h4>
-                <ul className="space-y-2">
+                <h4 className='font-semibold text-white mb-3 text-base'>
+                  Legal
+                </h4>
+                <ul className='space-y-2'>
                   {footerLinks.legal.map((link) => (
                     <li key={link.name}>
-                      <a 
+                      <a
                         href={link.href}
-                        className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
+                        className='text-gray-400 hover:text-white transition-colors duration-300 text-sm'
                       >
                         {link.name}
                       </a>
@@ -225,34 +242,34 @@ export default function Footer() {
               </motion.div>
             </div>
           </div>
-          
+
           {/* Desktop Layout (horizontal layout) */}
-          <div className="hidden md:flex flex-wrap">
+          <div className='hidden md:flex flex-wrap'>
             {/* Left Column - Company Info */}
-            <div className="md:w-1/3 lg:w-1/4 pr-8">
+            <div className='md:w-1/3 lg:w-1/4 pr-8'>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+                <h3 className='text-2xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent'>
                   Noether Labs
                 </h3>
-                <p className="text-gray-400 text-sm leading-relaxed mb-6 max-w-xs">
-                  Revolutionizing engineering simulation with AI-powered cloud solutions. 
-                  From concept to results in three simple steps.
+                <p className='text-gray-400 text-sm leading-relaxed mb-6 max-w-xs'>
+                  Revolutionizing engineering simulation with AI-powered cloud
+                  solutions. From concept to results in three simple steps.
                 </p>
-                
+
                 {/* Social Links */}
-                <div className="flex space-x-2">
+                <div className='flex space-x-2'>
                   <AnimatedTooltip items={socialLinks} />
                 </div>
               </motion.div>
             </div>
-            
+
             {/* Right Columns - Navigation Links */}
-            <div className="md:w-2/3 lg:w-3/4 flex flex-wrap justify-between">
+            <div className='md:w-2/3 lg:w-3/4 flex flex-wrap justify-between'>
               {/* Company Links */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -260,13 +277,15 @@ export default function Footer() {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 viewport={{ once: true }}
               >
-                <h4 className="font-semibold text-white mb-3 text-base">Company</h4>
-                <ul className="space-y-2">
+                <h4 className='font-semibold text-white mb-3 text-base'>
+                  Company
+                </h4>
+                <ul className='space-y-2'>
                   {footerLinks.company.map((link) => (
                     <li key={link.name}>
-                      <a 
+                      <a
                         href={link.href}
-                        className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
+                        className='text-gray-400 hover:text-white transition-colors duration-300 text-sm'
                       >
                         {link.name}
                       </a>
@@ -282,13 +301,18 @@ export default function Footer() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 viewport={{ once: true }}
               >
-                <h4 className="font-semibold text-white mb-3 text-base">Products</h4>
-                <ul className="space-y-2">
+                <h4 className='font-semibold text-white mb-3 text-base'>
+                  Products
+                </h4>
+                <ul className='space-y-2'>
                   {footerLinks.products.map((link) => (
                     <li key={link.name}>
-                      <a 
+                      <a
                         href={link.href}
-                        className={link.className || "text-gray-400 hover:text-white transition-colors duration-300 text-sm"}
+                        className={
+                          link.className ||
+                          'text-gray-400 hover:text-white transition-colors duration-300 text-sm'
+                        }
                       >
                         {link.name}
                       </a>
@@ -304,13 +328,15 @@ export default function Footer() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 viewport={{ once: true }}
               >
-                <h4 className="font-semibold text-white mb-3 text-base">Resources</h4>
-                <ul className="space-y-2">
+                <h4 className='font-semibold text-white mb-3 text-base'>
+                  Resources
+                </h4>
+                <ul className='space-y-2'>
                   {footerLinks.resources.map((link) => (
                     <li key={link.name}>
-                      <a 
+                      <a
                         href={link.href}
-                        className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
+                        className='text-gray-400 hover:text-white transition-colors duration-300 text-sm'
                       >
                         {link.name}
                       </a>
@@ -326,13 +352,15 @@ export default function Footer() {
                 transition={{ duration: 0.6, delay: 0.4 }}
                 viewport={{ once: true }}
               >
-                <h4 className="font-semibold text-white mb-3 text-base">Legal</h4>
-                <ul className="space-y-2">
+                <h4 className='font-semibold text-white mb-3 text-base'>
+                  Legal
+                </h4>
+                <ul className='space-y-2'>
                   {footerLinks.legal.map((link) => (
                     <li key={link.name}>
-                      <a 
+                      <a
                         href={link.href}
-                        className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
+                        className='text-gray-400 hover:text-white transition-colors duration-300 text-sm'
                       >
                         {link.name}
                       </a>
@@ -346,28 +374,29 @@ export default function Footer() {
 
         {/* Newsletter Signup */}
         <motion.div
-          className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl p-8 mb-12"
+          className='bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl p-8 mb-12'
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
           viewport={{ once: true }}
         >
-          <div className="max-w-2xl mx-auto text-center">
-            <h3 className="text-xl font-bold text-white mb-2">Stay Updated</h3>
-            <p className="text-gray-400 mb-6">
-              Get the latest updates on simulation technology and engineering innovations.
+          <div className='max-w-2xl mx-auto text-center'>
+            <h3 className='text-xl font-bold text-white mb-2'>Stay Updated</h3>
+            <p className='text-gray-400 mb-6'>
+              Get the latest updates on simulation technology and engineering
+              innovations.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+            <div className='flex flex-col sm:flex-row gap-3 max-w-md mx-auto'>
               <input
-                type="email"
-                placeholder="Enter your email"
+                type='email'
+                placeholder='Enter your email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 px-4 py-3 bg-black border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors duration-300"
+                className='flex-1 px-4 py-3 bg-black border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors duration-300'
               />
-              <Button 
+              <Button
                 onClick={handleNewsletterSubscribe}
-                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-300 hover:ring-blue-500"
+                className='px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-300 hover:ring-blue-500'
               >
                 Subscribe
               </Button>
@@ -377,20 +406,20 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <motion.div
-          className="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center"
+          className='pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center'
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.6 }}
           viewport={{ once: true }}
         >
-          <div className="text-gray-400 text-sm mb-4 md:mb-0">
+          <div className='text-gray-400 text-sm mb-4 md:mb-0'>
             © {currentYear} Noether Labs. All rights reserved.
           </div>
-          
-          <div className="flex items-center space-x-6 text-sm text-gray-400">
+
+          <div className='flex items-center space-x-6 text-sm text-gray-400'>
             <span>Made with ❤️ for engineers</span>
-            <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <div className='flex items-center space-x-2'>
+              <div className='w-2 h-2 bg-green-500 rounded-full animate-pulse'></div>
               <span>All systems operational</span>
             </div>
           </div>
